@@ -16,7 +16,6 @@ public class main {
     public static void main(String[] args) throws ParseException {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
@@ -29,25 +28,26 @@ public class main {
 
         System.out.print("Birth date (DD/MM/YYYY): ");
         Date birth = sdf.parse(sc.nextLine());
-        //System.out.println(sdf.format(birth));
-        Client client = new Client(name, email, birth);
+
+        Client client = new Client(name, email, birth); //CLIENTE CRIADO
 
 
         System.out.print("Enter order data: ");
-        String status = sc.nextLine();
+        String status = sc.nextLine(); //ENUM
 
-        System.out.print("How many items to this order? ");
+        System.out.print("How many items to this order? ");//QUANTIDADES DE PRODUTOS
         int numItem = sc.nextInt();
 
-        Product product = new Product();
+        Order order = new Order(new Date(), OrderStatus.valueOf(status), client); //CONTA CRIADA
         OrderItem orderItem = new OrderItem();
-        Order order = new Order();
+        Product product = new Product();
 
         for (int i = 1; i <= numItem; i++) {
             System.out.println("Enter #" + i + " item data:");
             System.out.print("Product name: ");
-            String nameProduct = sc.nextLine();
             sc.nextLine();
+            String pName = sc.nextLine();
+
 
             System.out.print("Price: ");
             Double priceProduct = sc.nextDouble();
@@ -55,17 +55,15 @@ public class main {
             System.out.print("Quantity: ");
             Integer quantity = sc.nextInt();
 
-            Date moment = new Date();
-
-            product = new Product(nameProduct, priceProduct);
-            orderItem = new OrderItem(quantity, priceProduct, product);
-            order = new Order(moment, OrderStatus.valueOf(status), client);
+            product = new Product(pName, priceProduct);//CRIANDO PRODUTO (NOME E PRECO)
+            orderItem = new OrderItem(quantity, priceProduct, product);//CRIANDO ITEM DO PEDIDO (QTD E O PRODUTO)
+            order.addItem(orderItem); //ADD NA LISTA DE PEDIDO
         }
 
         System.out.println();
         System.out.println("ORDER SUMARY:");
         System.out.println(order);
 
-
+        sc.close();
     }
 }

@@ -68,8 +68,8 @@ public class Order {
     public Double total() { // PERCORRE LISTA SOMANDO OS VALORES
         double sum = 0.0;
         for (OrderItem item : items) {
-            //sum += item.subTotal();
-            sum = sum + sum + item.subTotal();
+            sum += item.subTotal();
+            //sum = sum + sum + item.subTotal();
         }
         return sum;
     }
@@ -77,13 +77,17 @@ public class Order {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Order moment: "+ moment + "\n");
-        sb.append("Order status: "+status + "\n");
-        sb.append("Cliente: "+client + "\n");
+        sb.append("Order moment: " + sdf.format(moment) + "\n");
+        sb.append("Order status: " + status + "\n");
+        sb.append("Client: " + client + "\n");
 
-        for(OrderItem c: items){
-            sb.append(c.getProduct());
+        sb.append("order items:" + "\n");
+
+        for (OrderItem list : items) {
+            sb.append(list + "\n");
         }
-        return  sb.toString();
+
+        sb.append("Total price: $" + String.format("%.2f", total()));
+        return sb.toString();
     }
 }
